@@ -1,42 +1,56 @@
+def get_todos(filepath=r"files\todos.txt"):
+    with open(filepath,"r") as file:
+            lines = file.readlines()
+    return lines
+
+def set_todos(lines,filepath=r"files\todos.txt"):
+    with open(filepath,"w") as file:
+            file.writelines(lines)
 
 while True:
-    todo = input("Type 'add', 'show', 'edit', 'complete', or 'exit': ")
-    match todo.lower().strip():
-        case "add":
-            todo = input("Enter a todo: ") + "\n"
+    user_action = input("Type 'add', 'show', 'edit', 'complete', or 'exit': ").strip()
 
-            file = open(r"files\todos.txt","r")
-            todos = file.readlines()
-            file.close()
+    if user_action.startswith("add"):
+        todo = user_action[4:]
+        todos = get_todos()
+        todos.append(todo+"\n")
+        set_todos(todos)
+        print("Added")
 
-            todos.append(todo)
+    elif user_action.startswith("show"):
+        todos = get_todos()
+        for index, item in enumerate(todos):
+            item = item.strip('\n')
+            print(f"{index+1}.{item.title()}")
 
-            file = open(r"files\todos.txt","w")
-            file.writelines(todos)
-            file.close()
-
-            print("Added")
-
-        case "show":
-            file = open(r"files\todos.txt","r")
-            todos = file.readlines()
-            file.close()
-
-            for index, item in enumerate(todos):
-                print(f"{index+1}.{item.title()}")
-
-        case "edit":
-            number = int(input("Input number to be edited: "))
-            todos[number-1] = input("Enter new todo: ")
+    elif user_action.startswith("edit"):
+        try:
+            number = int(user_action[5:])
+            todos = get_todos()
+            todos[number-1] = input("Enter new todo: ") + "\n"
+            set_todos(todos)
             print("Edit successful")
+        except ValueError:
+            print("Invalid input")
+            continue
 
-        case "complete":
-            number = int(input("Input number completed: "))
+    elif user_action.startswith("complete"):
+        try:
+            number = int(user_action[9:])
+            todos = get_todos()
             todos.pop(number-1)
+            set_todos(todos)
+            print("Removed!")
+        except IndexError:
+            print("This number does not exist")
+            continue
+        except ValueError:
+            print("Invalid input")
+            continue
 
-        case "exit":
-            print("Goodbye")
-            break
+    elif user_action.startswith("exit"):
+        print("Goodbye")
+        break
 
-        case _:
-            print("Invalid Input")
+    else:
+        print("Invalid command")
