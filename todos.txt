@@ -1,1 +1,3 @@
-Build a happy houseBuy a car
+Build house
+buy car
+sell house
