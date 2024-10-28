@@ -1,9 +1,4 @@
 Build house
 buy car
-sell house
-buy house
 sell car
 buy apples
-Buy a Car
-Sell a car
-Buy a house
