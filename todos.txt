@@ -1,3 +1,7 @@
 Build house
 buy car
 sell house
+buy house
+sell car
+buy apples
+buy more apples
